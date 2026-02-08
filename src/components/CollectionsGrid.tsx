@@ -5,8 +5,7 @@ import GlassCard from "@/components/GlassCard";
 import Image from "next/image";
 import sanityLoader from "@/lib/sanityLoader";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
@@ -32,17 +31,20 @@ interface CollectionsGridProps {
 
 export default function CollectionsGrid({ products, categories }: CollectionsGridProps) {
   const searchParams = useSearchParams();
-  const initialCategory = searchParams.get("category") || "All";
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const router = useRouter();
+  
+  // Use URL param as source of truth
+  const selectedCategory = searchParams.get("category") || "All";
   const { addToCart } = useCart();
 
-  // Update selected category if URL params change
-  useEffect(() => {
-    const category = searchParams.get("category");
-    if (category && category !== selectedCategory) {
-      setSelectedCategory(category);
+  const handleCategoryChange = (cat: string) => {
+    // If "All" is selected, remove the param for cleaner URL
+    if (cat === "All") {
+      router.push("/collections", { scroll: false });
+    } else {
+      router.push(`/collections?category=${encodeURIComponent(cat)}`, { scroll: false });
     }
-  }, [searchParams, selectedCategory]);
+  };
 
   const filteredProducts = selectedCategory === "All"  
     ? products 
@@ -67,7 +69,7 @@ export default function CollectionsGrid({ products, categories }: CollectionsGri
           {categoryNames.map((cat) => (
             <button
               key={cat}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => handleCategoryChange(cat)}
               className={`px-4 py-2 rounded-full text-sm transition-all duration-300 border ${
                 selectedCategory === cat
                   ? "bg-white text-black border-white"
