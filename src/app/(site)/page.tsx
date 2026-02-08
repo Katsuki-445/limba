@@ -15,7 +15,7 @@ async function getRunwayProducts() {
       "slug": slug.current,
       "imageUrl": image.asset->url,
       "lqip": image.asset->metadata.lqip
-    }`, {}, { next: { revalidate: 0 } });
+    }`, {}, { next: { revalidate: 60 } });
   } catch (error) {
     console.error("Failed to fetch products:", error);
     return [];
@@ -30,7 +30,7 @@ async function getCategories() {
       "slug": slug.current,
       description,
       "imageUrl": image.asset->url
-    }`, {}, { next: { revalidate: 0 } });
+    }`, {}, { next: { revalidate: 60 } });
   } catch (error) {
     console.error("Failed to fetch categories:", error);
     return [];

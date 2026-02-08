@@ -65,7 +65,7 @@ export default function RootLayout({
           />
         </div>
         
-        {/* Grain Overlay */}
+        {/* Grain Overlay - Disabled for performance
         <div className="fixed inset-0 z-[-1] opacity-5 pointer-events-none mix-blend-overlay print:hidden">
           <Image 
             src="/grain.png" 
@@ -75,6 +75,7 @@ export default function RootLayout({
             priority
           />
         </div>
+        */}
 
         <CartProvider>
           <SmoothScroll>

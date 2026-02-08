@@ -4,6 +4,11 @@ import { ReactNode, useEffect } from "react";
 import Lenis from "lenis";
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
+  /* 
+   * Temporarily disabled Lenis for performance debugging.
+   * Native scrolling is more performant on lower-end devices/mobile.
+   */
+  /*
   useEffect(() => {
     // 1. Prevent browser from restoring scroll position automatically
     if ("scrollRestoration" in history) {
@@ -34,6 +39,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       lenis.destroy();
     };
   }, []);
+  */
 
   return <>{children}</>;
 }
